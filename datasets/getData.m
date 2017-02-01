@@ -81,8 +81,8 @@ function [input, data, features, testData, testFeatures] = getData(input, phase)
             [data, testData] = getObjCat3D(input, dataset);
         % Multi-Object Classification
         case 'Saenko'
-            [data, testData] = getSaenko(input, dataset, phase, 10);
-%             [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, dataset, phase, 10);
+%            [data, testData] = getSaenko(input, dataset, phase, 10);
+            [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, dataset, phase, 10);
         case 'Office'
 %             [data, testData] = getSaenko(input, dataset, phase, 31);
             [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, dataset, phase, 31);
