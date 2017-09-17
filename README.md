@@ -1,4 +1,8 @@
-# Domain Adaptation for image classification tasks
+# (Open Set) Domain Adaptation for image classification tasks (Closed and Open sets)
+ICCV'17 paper at: http://pages.iai.uni-bonn.de/gall_juergen/download/jgall_opensetdomain_iccv17.pdf
+
+-> Tested on Matlab 2013b - Windows 7
+-> Caffe binaries compiled on Visual Studio 2013 / Matlab 2013b (please, use your own binaries or pre-computed features
 
 Start the classification task:
 - main.m
@@ -6,8 +10,8 @@ Start the classification task:
 Modify parameters:
 - InputParameters.m
   - isDA = true activates domain adaptation 
-  - "FMO" is our developed method 
-  - numSrcClusters must contain the same number as classes or viewpoints, so "FMO" works 
+  - "ATI" is our developed method 
+  - numSrcClusters must contain the same number as classes or viewpoints, so "ATI" works 
   - Saenko = 10, Office = 31, Viewpoints = 8, 16, 24, 36, ...
  
 Datasets:
@@ -18,9 +22,11 @@ Datasets:
 
 Important files:
 - step1_Classification.m
-- DA_FMO.m
+- DA_ATI.m
 - computeCorrespondences.m
 
 Results:
 - files with (el) compute the mean accuracy among all test data elements/instances.
 - files with (pr) compute the mean of all class mean accuracies.
+
+for any question, please contact me: panareda@gmail.com, s6papana@uni-bonn.de
