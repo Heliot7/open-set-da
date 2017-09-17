@@ -1,0 +1,102 @@
+The libsvm-openset package extends libsvm to support openset recognition using the PI-SVM, WSVM and 1-vs-set extension described in [1] [2] and [3] respectively. libsvm-openset incoporates all libsvm functionality PI-SVM described in [1] + WSVM described in [2] + 1-vs-set described in [3].
+ 
+ 
+This package an extension to the well known  libsvm package (see README for info on libsvm) and extends support for linear, poly, RBG and sigmod kernels (-t [0-3]). It should work  with customer kernels, we just did not test that).
+
+PI-SVM/PI-OSVM functionality described in [1] in libsvm-openset:
+The extension uses the same command-line processing with a few added  fields:
+In svm-train:
+    -s 9 for the PI-OSVM based on one-class svms
+    -s 10 for the PI-SVM based on 1-vs-rest binary svms
+In svm-predict:
+    -P specify thresholded probability value to reject sample as unknowns for WSVM (default 0.0)
+ 
+To use WSVM in libsvm-openset:
+************ Training
+./svm-train -s 9 -t 0 TrainingDataFile ModelFile
+./svm-train -s 10 -t 0 TrainingDataFile ModelFile
+        where TrainingDataFile is training file in libsvm format. "ModelFile" will be genrated using one-class svms for PI-OSVM (-s 9 option) and 1-vs-rest SVM binary svms for PI-SVM (-s 10 option) respectively. Both PI-SVM and PI-OSVM estimates probability of inclusion for the single class. 
+************ Predicing Using model files ("ModelFile")
+./svm-predict -P 0.1 TestDataFile ModelFile outputfile
+        where TestDataFile is testing file in libsvm format. ModelFile is file generated during training.
+        -P specify the threshold to consider for rejecting samples as unknown in PI-SVM and PI-OSVM.
+        
+ 
+WSVM functionality described in [2] in libsvm-openset:
+The extension uses the same command-line processing with a few added  fields:
+In svm-train:
+    -s 8 for the WSVM based on 1-vs-rest binary svms
+In svm-predict:
+    -P specify thresholded probability value to reject sample as unknowns for WSVM (default 0.0)
+    -C specify thresholded probability value to reject sample as unknowns for CAP model in WSVM (default 0.0)
+ 
+To use WSVM in libsvm-openset:
+************ Training
+./svm-train -s 8 -t 0 TrainingDataFile ModelFile
+        where if TrainingDataFile is training file in libsvm format. Two file "ModelFile" and "ModelFile_one_wsvm" will be genrated using 1-vs-rest SVM and one-class SVM (CAP) respectively for WSVM.
+************ Predicing Using two model files ("ModelFile" and "ModelFile_one_wsvm")
+./svm-predict -P 0.1 -C 0.001 TestDataFile ModelFile outputfile
+        where TestDataFile is testing file in libsvm format. ModelFile is file generated during training. ./svm-predict by default looks for ModelFile_one_wsvm file generated for CAP model in WSVM training.
+        -P specify the threshold to consider for rejecting samples as unknown in WSVM.
+        -C specify the minimum threshold to consider for any sample in CAP model.
+ 
+
+1-vs-set functionality described in [3] in libsvm-openset:
+The extension uses the same command-line processing with a few added  fields:
+In svm-train:
+    -s 7 for the  1-vs-set based on "1-vs-all" binary svms (which is the generally recommended model)
+    -s 5 for the  1-vs-set based on one class svm (provides better generalization of one-class, but not truly a discriminative model )
+    -B optarg   Defines the beta of fmeasure used in the  balanced Balanced risk discussed in  the paper.
+    -G near_pessure far_pressure  (which allows changes to the "pressure" of the open-set  formulation.  Increasing pressure causes increased generalization, negative pressures cause increased specialization (e.g. you know you only had a few negative training classes).
+    -V logfilename (for verbose logs/debugging related to the actual openset optimization stages
+ 
+To use 1-vs-set (only linear and RBF kernels supported) in libsvm-openset:
+************ Training using  Pos/Negative or multi-class Files once  *****************
+./svm-train -s 5 -t 0 TrainingDataFile
+            where if TrainingDataFile is a mixed file with 1 for positive, -1 for negative
+                  This produces TrainingDataFile.model.1
+                  if TrainingDataFile is a mixed file with multiple class labels (1, 2 3.. 10)
+                        This produces TrainingDataFile.model.1 TrainingDataFile.model.2.. TrainingDataFile.model.10
+************ Predicing Using single Model Files  (against a multi-class or binary test file)  *****************
+./svm-predict -o testingDataFile TrainingDataFile.model.7 outpufile
+               outputfle has lines of the  format predicted_label decision_score  (target_label)
+               if the model has an index other than 1, then the testfile must be in multi-class format (rows start with class label).
+************ Predicing using multiple Model Files all at once  *****************
+./svm-predict -o testingDataFile TrainingDataFile.model.  outpufile
+               outputfle has lines of the  format predicted_label decision_score  (target_label)
+               (Note the trailing  . after model.. that tell it to use all models could also do .* but must escape the *)
+ 
+
+
+
+Installation:
+In order to compile WSVM functionality incorporated in libsvm-openset, libMR library available at http://www.metarecognition.com/libmr-license is needed. Once libMR.zip is copied after accepting its license, unzip libMR, copy libMR in libsvm-openset and build libMR.
+
+libMR Quick Build Instruction:
+This needs CMake (version > 2.8)
+Quick build instructions for linux/Mac:
+$> tar -zxf libMR.tgz
+$> cd libMR
+%You can edit the CMakeLists.txt in libMR level, to change install dir if desired
+$> mkdir build;  % or where you like to build it
+$> cd build
+$> cmake -DCMAKE_BUILD_TYPE=Debug ..
+$> make
+
+libsvm-openset Quick Build Instruction:
+Once libMR is build, next step is to specify the absolute path of libMR directory in Makefile available in libsvm-openset. Paste the absolute path of libMR folder in variable "LIBMR_DIR" in Makefile (line 2 of Makefile). For example: LIBMR_DIR = /Users/username/libsvm-openset/libMR
+On linux/mac systems, type `make' to build the `svm-train' and `svm-predict' programs. Run them without arguments to show the usages of them.
+e.g:
+$> cd libsvm-openset
+$> make
+$> ./svm-train
+$> ./svm-predict
+ 
+ 
+ 
+References:
+[1] Lalit P. Jain, Walter J. Scheirer, Terrance E. Boult: Multi-Class Open Set Recognition Using Probability of Inclusion. European Conference on Computer Vision (ECCV 2014), September 2014, Zurich, Switzerland.
+ 
+[2] Walter J. Scheirer*, Lalit P. Jain*, Terrance E. Boult: Probability Models for Open Set Recognition. IEEE Trans. Pattern Anal. Mach. Intell. (2014)
+ 
+[3] Walter J. Scheirer, Anderson de Rezende Rocha, Archana Sapkota, Terrance E. Boult: Toward Open Set Recognition. IEEE Trans. Pattern Anal. Mach. Intell. 35(7): 1757-1772 (2013)

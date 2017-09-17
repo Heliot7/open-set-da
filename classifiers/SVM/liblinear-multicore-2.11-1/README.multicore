@@ -1,0 +1,78 @@
+Introduction
+============
+
+This extension of liblinear supports multi-core parallel learning by OpenMP.
+We applied efficient implementations to train models for multi-core machines.
+Currently, -s 0 (solving primal LR), -s 2 (solving primal l2-loss SVM),
+-s 1 (solving dual l2-loss SVM), -s 3 (solving dual l1-loss SVM),
+and -s 11 (solving primal l2-loss SVR) are supported.
+
+Usage
+=====
+
+The usage is the same as liblinear except for the additional option:
+
+-n nr_thread: use nr_thread threads for training (only for -s 0, -s 1, -s 2, -s 3 and -s 11)
+
+Examples
+========
+
+> ./train -s 0 -n 8 heart_scale
+
+will run the L2-regularized logistic regression primal solver with 8 threads.
+
+> ./train -s 3 -n 8 heart_scale
+
+will run the L2-regularized l1-loss dual solver with 8 threads.
+
+Differences from LIBLINEAR
+==========================
+
+The major changes for the primal solver are to do matrix-vector multiplications in
+parallel. The major changes for the dual solver are to calculate the gradients
+in parallel, and then do CD (coordinate descent) updates serially.
+Details could be seen in the references.
+
+Experimental Results
+====================
+
+Time for solving the optimization problems. Other pre- and
+post-processing steps not included.
+
+Primal Logistic Regression:
+dataset              1-thread  4-threads   8-threads
+covtype_scale           1.837      0.491       0.393
+epsilon_normalized    114.495     30.030      18.200
+rcv1_test.binary       15.118      3.978       2.187
+webspam(trigram)      519.574    184.922     116.896
+
+Dual l1-loss SVM:
+dataset              1-thread  4-threads   8-threads
+covtype_scale           3.420      2.261       2.150
+epsilon_normalized     18.945      9.702       8.914
+rcv1_test.binary        2.553      1.319       1.091
+webspam(trigram)       60.986     28.901      22.843
+
+Dual l2-loss SVM:
+dataset              1-thread  4-threads   8-threads
+covtype_scale           7.508      5.090       4.771
+epsilon_normalized     31.164     20.434      19.691
+rcv1_test.binary        3.146      1.982       1.804
+webspam(trigram)       47.472     26.726      22.812
+
+Note that the primal and dual results are NOT COMPARABLE because they
+solve different problems.
+
+Reference
+=========
+
+M.-C. Lee, W.-L. Chiang, and C.-J. Lin.  
+Fast matrix-vector multiplications for large-scale logistic regression on shared-memory systems.  
+ICDM 2015
+
+W.-L. Chiang, M.-C. Lee, and C.-J. Lin.
+Parallel dual coordinate descent method for large-scale linear classification in multi-core environments.
+Technical report, National Taiwan University, 2016
+
+For any questions and comments, please email
+cjlin@csie.ntu.edu.tw
