@@ -5,7 +5,7 @@ classdef InputParameters < dynamicprops
         % - Where the dataset folder hangs
         PATH_DATA = 'Z:\PhD\Data\';
         % - Storage of results
-        PATH_RESULTS = 'Z:\PhD\Results\Tests\';
+        PATH_RESULTS = 'Z:\PhD\Results\Test_github\';
         % Type of object recognition task
         typePipeline = 'class'; % ['class']
         % - Training per class (+Inf means that all images are included)
@@ -17,7 +17,7 @@ classdef InputParameters < dynamicprops
         isStoreTransferOutput = true;
         isShowPose = false;
         % - Random seed for tests (selected images, candidates...)
-        seedRand = 1;
+        seedRand = 1; % Select -1 if you take ALL samples
         
         %% Datasets %%
         % - Name of dataset, based on Matlab clsases in "datasets" folder
@@ -72,7 +72,6 @@ classdef InputParameters < dynamicprops
         numIterATI = 1; % How many times we run ATI using previous results
         iterDA = 2; % Number of iteration of ATI method (<- MAIN ITERATION PARAM)
         numIterOpt = 50; % Number of iterations in optimisation process
-        regParam = 0.0;
         transformationDomain = 'src';
         dimPCA = 0.33; % PCA reduction
         numTgtClusters = 99999;
