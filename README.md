@@ -3,7 +3,7 @@ ICCV'17 paper at: http://pages.iai.uni-bonn.de/gall_juergen/download/jgall_opens
 
 -> Tested on Matlab 2013b - Windows 7
 -> Caffe binaries compiled on Visual Studio 2013 / Matlab 2013b (please, use your own binaries or pre-computed features
-
+-> Included version of OPTI toolbox should be upgraded for Matlab 2015: https://www.inverseproblem.co.nz/OPTI/
 Start the classification task:
 - main.m (start program)
 - Run_DA.m (script to run several experiments at once)
@@ -22,7 +22,7 @@ Datasets:
 - For viewpoint refinement/estimation: Synthetic data as "sourceDataset" and EPFL, ObjectCat3D, Pascal3D and Imagenet3D as "targetDataset" in InputParameters.m. Better with features that preserve layout information: CNN-pool5 or HOG.
 
 Important files:
-- step1_Classification.m
+- step_Classification.m
 - DA_ATI.m
 - computeCorrespondences.m
 
