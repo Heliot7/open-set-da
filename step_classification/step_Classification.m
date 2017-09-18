@@ -1,4 +1,4 @@
-function [out_transfer, srcFeatures, out_classifiers] = step1_Classification(input, srcData, srcFeatures, tgtData, tgtFeatures, testData, testFeatures)
+function [out_transfer, srcFeatures, out_classifiers] = step_Classification(input, srcData, srcFeatures, tgtData, tgtFeatures, testData, testFeatures)
 
     % Use PCA to speed-up computation
     if(input.dimPCA > 0.0 && (strcmpi(input.cnnModel,'AlexNet') || strcmpi(input.cnnModel,'VGG-16')))
@@ -120,7 +120,7 @@ function [out_transfer, srcFeatures, out_classifiers] = step1_Classification(inp
 
             if(~strcmpi(class(input.sourceDataset), class(input.targetDataset)) || isprop(input.sourceDataset,'source'))
 
-                if(1) % strcmpi(input.trainDomain,'tgt') && strcmpi(input.typePipeline,'class'))
+                if(strcmpi(input.trainDomain,'tgt') && strcmpi(input.typePipeline,'class'))
                     % TGT -> TEST (comparison tgt - training target relabelled)
                     classifiers = trainLabels(input, tgtData, tgtFeatures, transferLabels, srcClasses, input.typeClassifier);
                     if(strcmpi(input.trainDomain,'tgt'))
@@ -130,7 +130,7 @@ function [out_transfer, srcFeatures, out_classifiers] = step1_Classification(inp
                     confusionMatrix(input, metadata, srcClasses, testData, tgtClasses, testIds, testLabels, path, '(TGT-TEST) ');
                 end
                 if(~strcmpi(input.typeDA,'corr'))
-                    if(~input.isDA) % strcmpi(input.trainDomain,'tgt_gt') && strcmpi(input.typePipeline,'class'))
+                    if(strcmpi(input.trainDomain,'tgt_gt') && strcmpi(input.typePipeline,'class'))
                         % TGT_GT -> TEST (comparison gt - training target gt)
                         out_transfer = tgtIds; % no actual transfer, use of gt data!
                         classifiers = trainLabels(input, tgtData, tgtFeatures, tgtIds, srcClasses, input.typeClassifier);
@@ -142,7 +142,7 @@ function [out_transfer, srcFeatures, out_classifiers] = step1_Classification(inp
                     end
 
                     if(strcmpi(input.typePipeline,'class'))
-                        if(0) % strcmpi(input.trainDomain,'tgt'))
+                        if(strcmpi(input.trainDomain,'tgt'))
                             % JOINT SRC+TGT -> TEST (comparison joint: src+tgt relabelled)
                             classifiers = trainLabels(input, srcData, [srcFeatures; tgtFeatures], [srcIds; transferLabels], srcClasses, input.typeClassifier);
                             if(strcmpi(input.trainDomain,'both'))
@@ -150,7 +150,7 @@ function [out_transfer, srcFeatures, out_classifiers] = step1_Classification(inp
                             end
                             testLabels = assignLabels(input, classifiers, srcClasses, metadata, testIds, testFeatures);
                             confusionMatrix(input, metadata, srcClasses, testData, tgtClasses, testIds, testLabels, path, '(JOINT-TEST) ');
-                        else % if(strcmpi(input.trainDomain,'tgt_gt'))
+                        elseif(strcmpi(input.trainDomain,'tgt_gt'))
                             % JOINT SRC+TGT_GT -> TEST (comparison joint: src+tgt_gt)
                             classifiers = trainLabels(input, srcData, [srcFeatures; tgtFeatures], [srcIds; tgtIds], srcClasses, input.typeClassifier);
                             testLabels = assignLabels(input, classifiers, srcClasses, metadata, testIds, testFeatures);

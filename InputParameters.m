@@ -44,8 +44,8 @@ classdef InputParameters < dynamicprops
         %% Classifiers %%
         typeClassifier = 'LSVM'; % ['LSVM', 'kNN', 'CNN']
         % - Precondition in supervision: 'class' attribute known
-        isClassSupervised = false;
-        is4ViewSupervised = true;
+        isClassSupervised = true;
+        is4ViewSupervised = false;
         % - LSVM
         methodSVM = 'libsvm' % 'libsvm' (LSVM & SVM), 'liblinear' (LSVM)
         multiClassApproach = 'OVO'; % 'OVA': One-vs-All (libsvm), 'OVO': One-vs-One (liblinear)
@@ -53,33 +53,35 @@ classdef InputParameters < dynamicprops
         CV_LSVM = false; % Cross Validation 
         %% Special DA Cases %%
         % - Openset Domain adaptation (some classes left unknown
-        isOpenset = false;
+        isOpenset = true;
         % - Apply LSVM with unknown classes
         isWSVM = false;
         % - extra type of data used for training with domain adaptation data
-        trainDomain = 'tgt'; % ['tgt_gt', 'tgt', 'both']
+        trainDomain = 'tgt_gt'; % ['tgt_gt', 'tgt', 'both']
         %% Domain Adaptation %%
-        isDA = false;
+        isDA = true;
         typeDA = 'ATI'; % ['ATI', 'gfk', SA', 'MMDT', 'CORAL', ...}
         % 'whitening', 'gfk', 'MMDT', 'shekhar', 'saenko', 'DASVM'
         % - class-based problems
-        daAllSrc = true; % true, takes all source samples, false only standard subset
+        daAllSrc = false; % true, takes all source samples, false only standard subset
         daAllTgt = true; % true, takes all target samples, false only standard subset
         daOnlySupervised = false; % true, labelled test data is embedded in training (label 0)
         daNumSupervised = 3; % Number of test tasmple with known labels
         % - FMO attributes
         iterResetDA = 1; % Start with old assignments but Id transf. matrix
         numIterATI = 1; % How many times we run ATI using previous results
-        iterDA = 2; % Number of iteration of ATI method (<- MAIN ITERATION PARAM)
-        numIterOpt = 50; % Number of iterations in optimisation process
+        iterDA = 6; % Number of iteration of ATI method (<- MAIN ITERATION PARAM)
+        numIterOpt = 33; % Number of iterations in optimisation process
         transformationDomain = 'src';
         dimPCA = 0.33; % PCA reduction
         numTgtClusters = 99999; % large enough to get 1 cluster = 1 sample
-        numSrcClusters = 31; % Must be the same number as number of classes / viewpoints
-        deltaW = 1.0;
-        numCorr = 1; % extra source for unbalances [1..Inf]*(numTgt/numSrc)
+        numSrcClusters = 11; % Must be the same number as number of classes / viewpoints
+        deltaW = 1.0; % 1.0 = all transformation applied, [0 < deltaW < 1] transforms slower and might converge better (e.g. = 0.5)
+        numCorr = 99; % extra source for unbalanced datasets [1..Inf]*(numTgt/numSrc)
+        % e.g. numCorr = 99 times more samples assigned one specific class = in practice, no constraints
+        % e..g numCorr = 1 source classes assigned the same number of times. If datasets are balanced results improve        
         numLambda = 1.0; % distance samples empty nodes <-> tgt samples
-        tol_residual = 0.01;
+        tol_residual = 0.001;
         tol_W = 0.0;
         %% LC
         numNN = 0; % locality constraint = 1

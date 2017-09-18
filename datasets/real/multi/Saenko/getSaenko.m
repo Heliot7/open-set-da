@@ -24,22 +24,13 @@ function [data, testData] = getSaenko(input, dataset_info, phase, numClasses)
         rng(input.seedRand);
     end
 
-    if(~input.isRebuttal)
+    if(~input.isOpenset)
         listClasses = 1:numClasses;
     else
-        if(~input.isOpenset)
-            listClasses = 1:10;
-            if(strcmpi(phase,'source') && input.isWSVM)
-                listClasses = 1:10;
-            elseif(strcmpi(phase,'target') && input.isWSVM)
-                listClasses = [1:10,21:numClasses];
-            end
+        if(strcmpi(phase,'source'))
+            listClasses = 1:20;
         else
-            if(strcmpi(phase,'source'))
-                listClasses = 1:20;
-            else
-                listClasses = [1:10,21:numClasses];
-            end
+            listClasses = [1:10,21:numClasses];
         end
     end
     

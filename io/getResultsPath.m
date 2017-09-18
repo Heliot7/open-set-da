@@ -35,9 +35,6 @@ function [path, name] = getResultsPath(input)
         if(strcmpi(input.typeDA,'ATI'))
             extraDA = ['_ATI.' num2str(input.iterResetDA) '.' num2str(input.iterDA)];
             inputLambda = num2str(input.numLambda);
-            if(input.dynLambda)
-                inputLambda = 'D';
-            end
             extraDA = [extraDA 'r' num2str(input.numCorr) 'l' inputLambda '_'];
             if(input.numNN > 0)
                 extraDA = [extraDA 'LC' num2str(input.numNN) '_'];
@@ -55,11 +52,6 @@ function [path, name] = getResultsPath(input)
         else
             extraDA = ['_' input.typeDA];
         end
-%         if(input.isClassSupervised)
-%             extraDA = [extraDA '_sp'];
-%         else
-%             extraDA = [extraDA '_un'];
-%         end
     end
        
     srcDataset = class(input.sourceDataset);

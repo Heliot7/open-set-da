@@ -11,17 +11,17 @@ function main(input)
     
     % Load CNN model if specified
     % > Comment "if" statement if features/CNN/caffe_.mexw64 not compatible
-    if(~isempty(strfind(input.typeDescriptor,'CNN')))
-        desc = input.typeDescriptor(5:end);
-        model = [input.PATH_CNN input.cnnName '\' input.cnnName '-deploy-' desc '.prototxt'];
-        weights = [input.PATH_CNN input.cnnName '\' input.cnnModel '.caffemodel'];
-        caffe.set_mode_gpu();
-        caffe.set_device(0);
-        netCaffe = caffe.Net(model, weights, 'test');
-        fprintf('==========\n');
-        fprintf('CNN Net: %s\nWeights: %s\nOutput layer: %s\n', input.cnnName, input.cnnModel, desc);
-        fprintf('==========\n');
-    end
+%     if(~isempty(strfind(input.typeDescriptor,'CNN')))
+%         desc = input.typeDescriptor(5:end);
+%         model = [input.PATH_CNN input.cnnName '\' input.cnnName '-deploy-' desc '.prototxt'];
+%         weights = [input.PATH_CNN input.cnnName '\' input.cnnModel '.caffemodel'];
+%         caffe.set_mode_gpu();
+%         caffe.set_device(0);
+%         netCaffe = caffe.Net(model, weights, 'test');
+%         fprintf('==========\n');
+%         fprintf('CNN Net: %s\nWeights: %s\nOutput layer: %s\n', input.cnnName, input.cnnModel, desc);
+%         fprintf('==========\n');
+%     end
     
     if(strcmpi(input.typePipeline,'class'))
         fprintf('\nMulti-Object/Viewpoint Classification:\n');

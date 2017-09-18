@@ -120,16 +120,22 @@ function [input, data, features, testData, testFeatures] = getData(input, phase)
         elseif(strcmpi(phase,'target'))
             input.targetDataset.classes = [input.targetDataset.classes(1:10), {'zz_unknown'}];
             % Move unknown target to test
-            if(strcmpi(class(dataset),'Saenko'))
-                transferIds = ismember(data.annotations.classes,'zz_unknown');
-                testData.imgPaths = [testData.imgPaths; data.imgPaths(transferIds)];
-                data.imgPaths(transferIds) = [];
-                % testFeatures = [testFeatures; features(transferIds,:)];
-                % features(transferIds) = [];
-                data.annotations.imgId(transferIds) = [];
-                testData.annotations.imgId = (1:length(testData.imgPaths))';
-                testData.annotations.classes = [testData.annotations.classes; data.annotations.classes(transferIds)];
-                data.annotations.classes(transferIds) = [];
+            if(input.isClassSupervised)
+                if(strcmpi(class(dataset),'Office') || strcmpi(class(dataset),'Saenko') || strcmpi(class(dataset),'Testbed'))
+                    transferIds = ismember(data.annotations.classes,'zz_unknown');
+                    if(isfield(testData,'imgPaths'))
+                        testData.imgPaths = [testData.imgPaths; data.imgPaths(transferIds)];
+                        data.imgPaths(transferIds) = [];
+                        data.annotations.imgId(transferIds) = [];
+                        testData.annotations.imgId = (1:length(testData.imgPaths))';
+                    end
+                    if(~isempty(testFeatures))
+                        testFeatures = [testFeatures; features(transferIds,:)];
+                        features(transferIds,:) = [];
+                    end
+                    testData.annotations.classes = [testData.annotations.classes; data.annotations.classes(transferIds)];
+                    data.annotations.classes(transferIds) = [];
+                end
             end
         end
     elseif(input.isWSVM)

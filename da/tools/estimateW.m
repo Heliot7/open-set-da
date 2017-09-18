@@ -1,7 +1,7 @@
 function W = estimateW(input, oldW, numDims, srcCentres, assignSrc, tgtCentres, assignTgt)
 
     W = oldW;    
-    numInnerIter = input.numIterFMO;
+    numInnerIter = input.numIterATI;
     for innerIt = 1:numInnerIter
         tic;
         fprintf('Starting transformation matrix W estimation\n');

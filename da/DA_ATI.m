@@ -31,6 +31,10 @@ function [sFeat, tFeat, W, transferIds, testFeat, classifiers] = DA_ATI(input, s
     input.numSrcClusters = max(sIds);
     [sCentroidsGt, ~, ~, ~] = clusterSrcData(input, sData, sIds, sFeat);
     [tCentroidsGt, ~, ~, ~] = clusterSrcData(input, tData, tIds, tFeat);
+    % No unknown class, so copy first shared class (results wrong -> not relevant)
+    if(input.isOpenset && input.isClassSupervised)
+        tCentroidsGt = [tCentroidsGt; tCentroidsGt(1,:)];
+    end
     input.numSrcClusters = aux_SrcClusters;
     
     % Measurements
@@ -343,7 +347,7 @@ function [sFeat, tFeat, W, transferIds, testFeat, classifiers] = DA_ATI(input, s
     
     path = getResultsPath(input);
     
-    if(totalIt > 3)
+    if(totalIt > 3 && size(energy_gt,1) > 1)
         % PLOT: energies of minimisation per iteration
         energy_gt(energy_gt == +Inf) = [];
         if(~isempty(energy_gt))
@@ -591,14 +595,13 @@ function [res, transferLabels, scores, angleMeanErr, angleStdErr, classifiers] =
     input.isClassSupervised = false;
     % Assign cluster to target data using SVMs
     [transferLabels, scores] = assignLabels(input, classifiers, srcClasses, metadata, tgtIds, tgtFeatures, isVerbose);
-    if(input.isRebuttal && input.isWSVM)
+    if(input.isWSVM)
         isBg = cellfun(@isempty,transferLabels);
         transferLabels(isBg) = repmat({'zz_unknown'}, [sum(isBg) 1]);
     end
     input.isClassSupervised = isSup;
 
     if(~strcmpi(input.methodSVM, 'liblinear')) % lsvm DA type
-
         % Save intermediate results
         [res, angleMeanErr, angleStdErr] = confusionMatrix(input, metadata, srcClasses, tgtData, tgtClasses, tgtIds, transferLabels, path , ['it' num2str(itOut) '.' num2str(it)]);
         res = res(1,:);

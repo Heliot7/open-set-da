@@ -10,10 +10,11 @@ Start the classification task:
 
 Modify parameters:
 - InputParameters.m
-  - isDA = true activates domain adaptation 
-  - "ATI" is our developed method 
-  - numSrcClusters must contain the same number as classes or viewpoints, so "ATI" works 
-  - Saenko = 10, Office = 31, Viewpoints = 8, 16, 24, 36, ...
+  - isDA = true, activates domain adaptation
+  - isOpenset = true, activates open set protocol. Otherwise, (standard) closed set 
+  - "ATI" is our developed method
+  - numSrcClusters must contain the same number as classes or viewpoints, so "ATI" works: Saenko = 10, Office = 31, Viewpoints = 8, 16, 24, 36, ... For the open set protocol, count shared classes + 1 (unknown class)
+  - isMidResultsDA = true, To visualise additional results in the optimisation process of ATI
  
 Datasets:
 - For image classification: Saenko, Office and Sentiment datasets are standard evaluation datasets, select the same class in InputParameters.m ("sourceDataset" and "targetDataset") and then update accordingly "source" and "target" options within their classes to change the different domains. Better with CNN-fc7 features:
@@ -28,6 +29,9 @@ Important files:
 
 Results:
 - files with (el) compute the mean accuracy among all test data elements/instances.
-- files with (pr) compute the mean of all class mean accuracies.
+- files with (pr) compute the mean of all class mean accuracies. -> used in the paper
+
+Protocol of random splits: 
+- In matlab using "ranperm" function and previously: rng(seedRand), where "seedRand = [1,2,3,4,5]"
 
 for any question, please contact me: panareda@gmail.com, s6papana@uni-bonn.de

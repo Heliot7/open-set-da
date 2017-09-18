@@ -55,26 +55,19 @@ function input = setupFeatures(input, data)
             else
                 patchSize = [128 128];
             end
-            if(input.autoBB)
-                patchSize = setupSize(data.classSetup(c).muSize);
-            end
             featureSize = [round(patchSize./8) - 3 31];
             featureDim = prod(round(patchSize./8) - 3) * 31;
         elseif(~isempty(strfind(input.typeDescriptor,'CNN')))
-            if(input.autoBB)
-                patchSize = setupSize(data.classSetup(c).muSize);
-            else
-                if(~isempty(strfind(input.typeDescriptor,'fc7')))
-                    if(~isempty(strfind(input.cnnName,'AlexNet')))
-                        patchSize = [227 227];
-                    elseif(~isempty(strfind(input.cnnName,'VGG')))
-                        patchSize = [224 224]; % [224 224];
-                    end
-                elseif(~isempty(strfind(input.typeDescriptor,'pool5')))
+            if(~isempty(strfind(input.typeDescriptor,'fc7')))
+                if(~isempty(strfind(input.cnnName,'AlexNet')))
                     patchSize = [227 227];
-                elseif(~isempty(strfind(input.typeDescriptor,'conv5')))
-                    patchSize = [227 227];
+                elseif(~isempty(strfind(input.cnnName,'VGG')))
+                    patchSize = [224 224]; % [224 224];
                 end
+            elseif(~isempty(strfind(input.typeDescriptor,'pool5')))
+                patchSize = [227 227];
+            elseif(~isempty(strfind(input.typeDescriptor,'conv5')))
+                patchSize = [227 227];
             end
             if(~isprop(input.sourceDataset,'source'))
                 [featureDim, featureSize] = getConvDims(input.typeDescriptor, patchSize);
@@ -90,27 +83,9 @@ function input = setupFeatures(input, data)
         if(isfield(data.classSetup(c),'metadata'))
             input.featureInfo.classes(c).metadata = repmat(struct('patchSize',''), length(data.classSetup(c).metadata), 1);
             for i = 1:length(data.classSetup(c).metadata)
-                if(~input.autoBB)
-                    input.featureInfo.classes(c).metadata(i).patchSize = input.featureInfo.classes(c).patchSize;
-                    input.featureInfo.classes(c).metadata(i).featureSize = input.featureInfo.classes(c).featureSize;
-                    input.featureInfo.classes(c).metadata(i).featureDim = input.featureInfo.classes(c).featureDim;
-                else
-                    patchSize = setupSize(data.classSetup(c).metadata(i).muSize);
-                    if(strcmp(input.typeDescriptor, 'HOG'))
-                        featureSize = [round(patchSize./8) - 3 31];
-                        featureDim = prod(round(patchSize./8) - 3) * 31;
-                    elseif(~isempty(strfind(input.typeDescriptor,'CNN')))
-                         if(~isprop(input.sourceDataset,'source'))
-                            [featureDim, featureSize] = getConvDims(input.typeDescriptor, patchSize);
-                        else
-                            featureDim = 4096;
-                            featureSize = [1, 1, 4096];
-                        end
-                    end
-                    input.featureInfo.classes(c).metadata(i).patchSize = patchSize;
-                    input.featureInfo.classes(c).metadata(i).featureSize = featureSize;
-                    input.featureInfo.classes(c).metadata(i).featureDim = featureDim;
-                end  
+                input.featureInfo.classes(c).metadata(i).patchSize = input.featureInfo.classes(c).patchSize;
+                input.featureInfo.classes(c).metadata(i).featureSize = input.featureInfo.classes(c).featureSize;
+                input.featureInfo.classes(c).metadata(i).featureDim = input.featureInfo.classes(c).featureDim;
             end
         end
     end

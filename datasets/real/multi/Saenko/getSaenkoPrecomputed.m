@@ -42,24 +42,15 @@ function [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, 
         fts = zscore(fts);
     end
     
-    if(~input.isRebuttal)
+    if(~input.isOpenset)
         listLabels = 1:max(labels);
     else
-        if(~input.isOpenset)
-            listLabels = 1:10;
-            if(strcmpi(phase,'source') && input.isWSVM)
-                listLabels = 1:10;
-            elseif(strcmpi(phase,'target') && input.isWSVM)
-                listLabels = [1:10,21:max(labels)];
-            end
+        if(strcmpi(phase,'source'))
+            listLabels = 1:20;
         else
-            if(strcmpi(phase,'source'))
-                listLabels = 1:20;
-            else
-                listLabels = [1:10,21:max(labels)];
-            end
+            listLabels = [1:10,21:max(labels)];
         end
-    end    
+    end
     
     for i = listLabels
         classSamples = find(labels == i);
