@@ -74,7 +74,7 @@ classdef InputParameters < dynamicprops
         numIterOpt = 50; % Number of iterations in optimisation process
         transformationDomain = 'src';
         dimPCA = 0.33; % PCA reduction
-        numTgtClusters = 99999;
+        numTgtClusters = 99999; % large enough to get 1 cluster = 1 sample
         numSrcClusters = 31; % Must be the same number as number of classes / viewpoints
         deltaW = 1.0;
         numCorr = 1; % extra source for unbalances [1..Inf]*(numTgt/numSrc)
@@ -84,7 +84,6 @@ classdef InputParameters < dynamicprops
         %% LC
         numNN = 0; % locality constraint = 1
         isClosestNN = false;
-        isLocalSrc = false;
         isFMOAllSamples = true;
         %% Background handle
         % - Include Bg samples in correspondence estimation
@@ -94,10 +93,10 @@ classdef InputParameters < dynamicprops
         % - Type of supervision (protocol Office or 'given # samples')
         typeWildSupervision = 'Office';
         % Print-outs
-        isMidResultsDA = true;
+        isMidResultsDA = true; % Compute additional classifiers for in-between results
         isDaView2D = false;
         % Special test cases 
-        daSpecial = ''; % {'' (standard), 'gt', 'rnd' };
+        daSpecial = ''; % {'' (standard), 'gt' (ground truth assignments, 'rnd' (random assignments)};
     end
 
 end

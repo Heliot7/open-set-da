@@ -1,0 +1,17 @@
+﻿Build started 14.04.2015 09:01:55.
+     1>Project "Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\NLOPT\NLOPT.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IZ:\PhD\Code\Research\TwoStepDetection\libs\Eigen3.2 /Zi /nologo /W3 /WX- /sdl /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt main.cpp
+         main.cpp
+     1>z:\phd\code\research\twostepdetection\da\min\nlopt\nlopt\nlopt\nlopt.hpp(414): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>z:\phd\code\research\twostepdetection\da\min\nlopt\nlopt\nlopt\nlopt.hpp(443): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>z:\phd\code\research\twostepdetection\da\min\nlopt\nlopt\nlopt\nlopt.hpp(473): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+     1>z:\phd\code\research\twostepdetection\da\min\nlopt\nlopt\nlopt\nlopt.hpp(483): warning C4267: 'argument' : conversion from 'size_t' to 'unsigned int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\x64\Debug\NLOPT.exe" /INCREMENTAL /NOLOGO "libs/libnlopt-0.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\x64\Debug\NLOPT.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\x64\Debug\NLOPT.lib" /MACHINE:X64 x64\Debug\main.obj
+         NLOPT.vcxproj -> Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\x64\Debug\NLOPT.exe
+     1>Done Building Project "Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\NLOPT\NLOPT.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.62

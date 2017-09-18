@@ -5,7 +5,8 @@ ICCV'17 paper at: http://pages.iai.uni-bonn.de/gall_juergen/download/jgall_opens
 -> Caffe binaries compiled on Visual Studio 2013 / Matlab 2013b (please, use your own binaries or pre-computed features
 
 Start the classification task:
-- main.m
+- main.m (start program)
+- Run_DA.m (script to run several experiments at once)
 
 Modify parameters:
 - InputParameters.m

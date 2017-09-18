@@ -68,11 +68,11 @@ function [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, 
         trainSamples = classSamples(permSamples(1:min(length(classSamples), numImgs)));
         features = [features; fts(trainSamples,:)];
         % To comment (closed set -> open set)
-        if(input.isRebuttal && (input.isOpenset || input.isWSVM))
+        if(input.isOpenset || input.isWSVM)
             if(i <= 10) 
                 data.annotations.classes = [data.annotations.classes; dataset_info.classes(labels(trainSamples))'];
             else
-                data.annotations.classes = [data.annotations.classes;  repmat({'background'}, [size(trainSamples,1) 1])];
+                data.annotations.classes = [data.annotations.classes;  repmat({'zz_unknown'}, [size(trainSamples,1) 1])];
             end
         else
             data.annotations.classes = [data.annotations.classes; dataset_info.classes(labels(trainSamples))'];
@@ -81,11 +81,11 @@ function [data, features, testData, testFeatures] = getSaenkoPrecomputed(input, 
         if(numImgs < length(classSamples) && strcmpi(phase,'target'))
             testSamples = classSamples(permSamples(numImgs+1:end));
             testFeatures = [testFeatures; fts(testSamples,:)];
-            if(input.isRebuttal && (input.isOpenset || input.isWSVM))
+            if(input.isOpenset || input.isWSVM)
                 if(i <= 10) 
                     testData.annotations.classes = [testData.annotations.classes; dataset_info.classes(labels(testSamples))'];
                 else
-                    testData.annotations.classes = [testData.annotations.classes;  repmat({'background'}, [size(testSamples,1) 1])];
+                    testData.annotations.classes = [testData.annotations.classes;  repmat({'zz_unknown'}, [size(testSamples,1) 1])];
                 end
             else
                 testData.annotations.classes = [testData.annotations.classes; dataset_info.classes(labels(testSamples))'];

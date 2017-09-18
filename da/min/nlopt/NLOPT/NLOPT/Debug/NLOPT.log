@@ -1,0 +1,23 @@
+﻿Build started 08.04.2015 11:35:33.
+     1>Project "Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\NLOPT\NLOPT.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /INLOPT /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /INLOPT /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt optimiser.c
+         optimiser.c
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\Debug\NLOPT.exe" /INCREMENTAL /NOLOGO "libs/libnlopt-0.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\Debug\NLOPT.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\Debug\NLOPT.lib" /MACHINE:X86 Debug\main.obj
+         Debug\optimiser.obj
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_create referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_destroy referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_optimize referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_set_min_objective referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_set_lower_bounds referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_add_inequality_constraint referenced in function _main
+     1>main.obj : error LNK2019: unresolved external symbol __imp__nlopt_set_xtol_rel referenced in function _main
+     1>Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\Debug\NLOPT.exe : fatal error LNK1120: 7 unresolved externals
+     1>Done Building Project "Z:\PhD\Code\Research\TwoStepDetection\da\min\nlopt\NLOPT\NLOPT\NLOPT.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.56
