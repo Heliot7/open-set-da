@@ -1,4 +1,4 @@
-# (Open Set) Domain Adaptation for image classification tasks (Closed and Open sets)
+# (Open Set) Domain Adaptation for image classification tasks
 ICCV'17 paper at: http://pages.iai.uni-bonn.de/gall_juergen/download/jgall_opensetdomain_iccv17.pdf
 
 -> Tested on Matlab 2013b - Windows 7
